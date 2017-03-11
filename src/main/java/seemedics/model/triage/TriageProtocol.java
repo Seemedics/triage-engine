@@ -2,7 +2,9 @@ package seemedics.model.triage;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Singular;
+import seemedics.dao.Entity;
 import seemedics.model.Fact;
 
 import java.util.Set;
@@ -12,13 +14,11 @@ import java.util.Set;
  */
 @Data
 @Builder
-public class TriageProtocol {
-
+@EqualsAndHashCode(callSuper = true)
+public class TriageProtocol extends Entity {
     /**
      * Defines the entry point of the protocol
      */
-    @Singular
-    private Set<Fact> initialFacts;
 
     private TriageFlow flow;
 

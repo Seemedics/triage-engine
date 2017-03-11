@@ -162,7 +162,6 @@ public class TriageModelTest {
 
 
         TriageProtocol soreThroatProtocol = TriageProtocol.builder()
-                .initialFact(soreThroat)
                 .flow(soreThroatProtocolFlow)
                 .build();
 
@@ -177,9 +176,6 @@ public class TriageModelTest {
         facts.add(initialFact);
 
         log.info("Facts so far: {}",facts);
-
-
-        Assert.assertTrue("soreThroat is expected to be the initial facts for this protocol", soreThroatProtocol.getInitialFacts().contains(soreThroat));
 
         ConditionalFlow flow1 = soreThroatProtocol.getFlow().toConditionalFlow();
 

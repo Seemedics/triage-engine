@@ -18,7 +18,19 @@ import java.util.Set;
 @Data
 @Builder
 public class Fact {
+    /**
+     * DB unique ID
+     */
     public final String id;
+
+    /**
+     * Reference to unique term as: <p>
+     * 'headache' (which is as symptom) <p>
+     * 'cancer' (which is condition) <p>
+     * 'age' which is human attribute <p>
+     */
+    public final String ref;
+
     public final String name;
 
     /**
