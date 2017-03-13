@@ -18,6 +18,7 @@ public class ConditionalFlow implements TriageFlow {
     private Question question;
 
     private String id;
+
     /**
      * AnswerId -> Flow
      */

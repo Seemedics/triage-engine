@@ -7,6 +7,7 @@ import lombok.Singular;
 import seemedics.dao.Entity;
 import seemedics.model.Fact;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -16,10 +17,12 @@ import java.util.Set;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 public class TriageProtocol extends Entity {
-    /**
-     * Defines the entry point of the protocol
-     */
+
+
+    //TODO add initial complaints
 
     private TriageFlow flow;
+
+    private Map<String,ConditionalFlow> subFlows;
 
 }
