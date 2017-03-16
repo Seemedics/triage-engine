@@ -22,7 +22,7 @@ import java.util.Set;
 public class TriageModelTest {
 
     @Test
-    public void initTriageProtocol(){
+    public void triageDataUsage(){
 
 
         TriageProtocol soreThroatProtocol = SoreThroatProtocotData.protocol();
