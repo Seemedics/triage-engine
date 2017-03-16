@@ -11,6 +11,9 @@ import java.util.Set;
 /**
  * @author victorp
  */
+
+//TODO delete
+
 @Data
 @Builder
 public class AnswerToFacts {

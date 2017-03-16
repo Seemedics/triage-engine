@@ -47,7 +47,7 @@ public class TriageModelTest {
         PredefAnswer answer = (PredefAnswer) options[1];
         log.info("A: {}", answer.getText());
 
-        facts.add(soreThroatProtocol.getAns2facts().get(answer.getId()));
+        facts.add(soreThroatProtocol.factFromAnswer(answer.getId()).get());
         log.info("Facts so far: {}",facts);
 
     }

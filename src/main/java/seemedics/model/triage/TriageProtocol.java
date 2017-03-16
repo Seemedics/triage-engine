@@ -7,13 +7,13 @@ import seemedics.model.dialog.PredefAnswer;
 import seemedics.model.metadata.MedSymptomDescriptor;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
  * @author victorp
  */
 @Data
-
 @EqualsAndHashCode(callSuper = true)
 public class TriageProtocol extends Entity {
 
@@ -37,6 +37,7 @@ public class TriageProtocol extends Entity {
      * in order to select corresponding protocol.
      *
      */
+    @Getter
     @NonNull
     private final String initialSymptomDescId;
 
@@ -44,6 +45,7 @@ public class TriageProtocol extends Entity {
     /**
      * The main flow
      */
+    @Getter
     @NonNull
     private final TriageFlow flow;
 
@@ -52,12 +54,21 @@ public class TriageProtocol extends Entity {
      * Useful for continue the flow from the given step <p>
      */
     @NonNull
+    @Getter(value = AccessLevel.PRIVATE)
     private final Map<String,TriageFlow> subFlows;
+
+    public Optional<TriageFlow> getSubFlow(String flowId){
+        return Optional.ofNullable(subFlows.get(flowId));
+    }
 
     /**
      * Each predef answer is mapped to specific fact
      */
     @NonNull
+    @Getter(value = AccessLevel.PRIVATE)
     private final Map<String,Fact> ans2facts;
 
+    public Optional<Fact> factFromAnswer(String answerId){
+        return Optional.ofNullable(ans2facts.get(answerId));
+    }
 }

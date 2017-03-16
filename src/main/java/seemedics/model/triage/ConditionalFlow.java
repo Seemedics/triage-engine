@@ -1,13 +1,11 @@
 package seemedics.model.triage;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Singular;
+import lombok.*;
 import seemedics.dao.Entity;
 import seemedics.model.dialog.Question;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author victorp
@@ -15,7 +13,7 @@ import java.util.Map;
 
 @Data
 @Getter
-public class ConditionalFlow extends Entity implements TriageFlow {
+public class ConditionalFlow extends  TriageFlow {
 
     private Question question;
 
@@ -28,10 +26,15 @@ public class ConditionalFlow extends Entity implements TriageFlow {
     }
 
     /**
-     * AnswerId -> FlowId
+     * AnswerId -> Flow
      */
 
+    @Getter(AccessLevel.PRIVATE)
     private Map<String,TriageFlow> subFlows;
+
+    public Optional<TriageFlow> subFlow(String answerId){
+        return Optional.ofNullable(subFlows.get(answerId));
+    }
 
     public boolean isOutcome() { return  false; }
 

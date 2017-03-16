@@ -9,8 +9,7 @@ import seemedics.dao.Entity;
  * @author victorp
  */
 @Data
-
-public class TriageOutcome extends Entity implements TriageFlow {
+public class TriageOutcome extends  TriageFlow {
 
     @Builder
     public TriageOutcome(String id, String name, Urgency urgency) {

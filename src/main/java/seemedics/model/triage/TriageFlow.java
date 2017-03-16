@@ -1,13 +1,19 @@
 package seemedics.model.triage;
 
+import seemedics.dao.Entity;
+
 /**
  * @author victorp
  */
-public interface TriageFlow {
+public abstract class TriageFlow extends Entity{
 
-    boolean isOutcome();
+    public TriageFlow(String id, String name) {
+        super(id, name);
+    }
 
-    ConditionalFlow toConditionalFlow();
+    public abstract boolean isOutcome();
 
-    TriageOutcome toTriageOutcome();
+    public abstract ConditionalFlow toConditionalFlow();
+
+    public abstract TriageOutcome toTriageOutcome();
 }

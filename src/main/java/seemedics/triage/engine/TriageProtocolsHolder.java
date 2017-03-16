@@ -2,6 +2,7 @@ package seemedics.triage.engine;
 
 import seemedics.model.triage.TriageProtocol;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -10,7 +11,7 @@ import java.util.stream.Stream;
 public interface TriageProtocolsHolder {
 
     Stream<TriageProtocol> stream();
-    TriageProtocol get(String id);
+    Optional<TriageProtocol> get(String id);
 
 
 }

@@ -1,5 +1,6 @@
 package seemedics.triage.engine;
 
+import lombok.Builder;
 import lombok.Data;
 import seemedics.model.Fact;
 import seemedics.model.dialog.Question;
@@ -12,6 +13,7 @@ import java.util.Set;
  * @author victorp
  */
 @Data
+@Builder
 public class TriageResult {
     public final boolean isFinal;
 
