@@ -1,8 +1,7 @@
 package seemedics.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Singular;
+import lombok.*;
+import seemedics.dao.Entity;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -15,13 +14,19 @@ import java.util.Set;
  *
  * @author victorp
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-public class Fact {
-    /**
-     * DB unique ID
-     */
-    public final String id;
+@Getter
+public class Fact extends Entity{
+
+    @Builder
+    public Fact(String id, String name, String ref, String status, Optional<Long> timePeriodMillis, @Singular Map<String, String> values) {
+        super(id, name);
+        this.ref = ref;
+        this.status = status;
+        this.timePeriodMillis = timePeriodMillis;
+        this.values = values;
+    }
 
     /**
      * Reference to unique term as: <p>
@@ -31,7 +36,7 @@ public class Fact {
      */
     public final String ref;
 
-    public final String name;
+
 
     /**
      * Valid options:
@@ -64,7 +69,7 @@ public class Fact {
      *       Symptom is fever; values: temperature -> 39 <p>
      *       Symptom is headache; values: pain severity -> moderate <p>
      */
-    @Singular
+
     public final Map<String,String> values;
 
     public Set<Fact> asSet(){

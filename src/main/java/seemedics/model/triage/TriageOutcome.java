@@ -2,13 +2,22 @@ package seemedics.model.triage;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import seemedics.dao.Entity;
 
 /**
  * @author victorp
  */
 @Data
-@Builder
-public class TriageOutcome implements TriageFlow {
+
+public class TriageOutcome extends Entity implements TriageFlow {
+
+    @Builder
+    public TriageOutcome(String id, String name, Urgency urgency) {
+        super(id, name);
+        this.urgency = urgency;
+    }
+
     /**
      * The urgency level and corresponding recommended actions
      */

@@ -1,13 +1,19 @@
 package seemedics.dao;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 
 /**
  * @author victorp
  */
 
 @Data
+@AllArgsConstructor
 public class Entity {
-    private String id;
-    private String name;
+    @NonNull
+    private final String id;
+
+    @NonNull
+    private final String name;
 }

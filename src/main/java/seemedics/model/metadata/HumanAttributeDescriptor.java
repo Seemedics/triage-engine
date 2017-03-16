@@ -12,4 +12,8 @@ import seemedics.dao.Entity;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class HumanAttributeDescriptor extends Entity {
+
+    public HumanAttributeDescriptor(String id, String name) {
+        super(id, name);
+    }
 }

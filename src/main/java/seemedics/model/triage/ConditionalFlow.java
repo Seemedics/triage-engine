@@ -2,7 +2,9 @@ package seemedics.model.triage;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.Singular;
+import seemedics.dao.Entity;
 import seemedics.model.dialog.Question;
 
 import java.util.Map;
@@ -12,17 +14,23 @@ import java.util.Map;
  */
 
 @Data
-@Builder
-public class ConditionalFlow implements TriageFlow {
+@Getter
+public class ConditionalFlow extends Entity implements TriageFlow {
 
     private Question question;
 
-    private String id;
+    @Builder
+    public ConditionalFlow(String id, String name, Question question,
+                           @Singular Map<String, TriageFlow> subFlows) {
+        super(id, name);
+        this.question = question;
+        this.subFlows = subFlows;
+    }
 
     /**
-     * AnswerId -> Flow
+     * AnswerId -> FlowId
      */
-    @Singular
+
     private Map<String,TriageFlow> subFlows;
 
     public boolean isOutcome() { return  false; }
