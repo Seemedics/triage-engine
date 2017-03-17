@@ -9,9 +9,7 @@ import seemedics.model.triage.TriageOutcome;
 import seemedics.model.triage.TriageProtocol;
 import seemedics.model.triage.Urgency;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author victorp
@@ -52,6 +50,9 @@ public class SoreThroatProtocotData {
         return allSymptoms;
     }
 
+    public static Set<Fact> initialFacts() {
+        return Collections.singleton(initialFact());
+    }
 
     public static Fact initialFact(){
         return Fact.builder()
@@ -65,10 +66,7 @@ public class SoreThroatProtocotData {
 
 
     public static Map<String, TriageProtocol> protocols() {
-        Map<String, TriageProtocol> protocols = new HashMap<>();
-        protocols.put(protocol().getId(),protocol());
-        return protocols;
-
+        return Collections.singletonMap(protocol().getId(),protocol());
     }
 
     public static TriageProtocol protocol(){
