@@ -62,8 +62,16 @@ public class SoreThroatProtocotData {
                 .build();
     }
 
-    public static TriageProtocol protocol() {
 
+
+    public static Map<String, TriageProtocol> protocols() {
+        Map<String, TriageProtocol> protocols = new HashMap<>();
+        protocols.put(protocol().getId(),protocol());
+        return protocols;
+
+    }
+
+    public static TriageProtocol protocol(){
 
         /**
          * Predef facts

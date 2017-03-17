@@ -8,9 +8,10 @@ import java.util.stream.Stream;
 /**
  * @author victorp
  */
-public interface TriageProtocolsHolder {
+public interface TriageProtocols {
 
     Stream<TriageProtocol> stream();
+
     Optional<TriageProtocol> get(String id);
 
 

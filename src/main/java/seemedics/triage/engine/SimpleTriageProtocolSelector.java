@@ -1,6 +1,8 @@
 package seemedics.triage.engine;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import seemedics.model.Fact;
 import seemedics.model.triage.TriageProtocol;
 
@@ -14,10 +16,13 @@ import java.util.function.Predicate;
  * The real selector must be rule based instead.
  * @author victorp
  */
+
+@Slf4j
+@Service
 public class SimpleTriageProtocolSelector implements TriageProtocolSelector {
 
     @Autowired
-    private TriageProtocolsHolder triageProtocols;
+    private TriageProtocols triageProtocols;
 
 
     @Override

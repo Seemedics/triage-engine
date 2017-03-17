@@ -1,5 +1,8 @@
 package seemedics.triage.engine;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import seemedics.model.Fact;
 import seemedics.model.triage.*;
 
@@ -10,9 +13,14 @@ import java.util.Set;
 /**
  * @author victorp
  */
+@Slf4j
+@Service
 public class DefaultTriageEngine implements TriageEngine {
 
-    private TriageProtocolsHolder triageProtocols;
+    @Autowired
+    private TriageProtocols triageProtocols;
+
+    @Autowired
     private TriageProtocolSelector protocolSelector;
 
 
