@@ -12,6 +12,7 @@ import java.util.Set;
  */
 
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Data
 @Getter
 public class Question extends Entity {

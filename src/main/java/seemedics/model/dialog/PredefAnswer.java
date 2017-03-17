@@ -1,8 +1,6 @@
 package seemedics.model.dialog;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import seemedics.dao.Entity;
 
@@ -12,6 +10,8 @@ import java.util.Optional;
  * @author victorp
  */
 
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Data
 public class PredefAnswer extends Entity {
     @Builder

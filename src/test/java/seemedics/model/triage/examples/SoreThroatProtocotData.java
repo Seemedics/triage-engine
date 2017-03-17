@@ -168,7 +168,7 @@ public class SoreThroatProtocotData {
         PredefAnswer answNoWhitePatches = PredefAnswer.builder()
                 .id("ans-no-white-patches")
                 .name("ans-no-white-patches")
-                .text("White patches")
+                .text("No white patches")
                 .imageUrlOpt(Optional.of("https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTApo2EAy6exxQPG18lo2-eibmgPWiUWQAurlsGl3xaVbS0bjwuwQ"))
                 .build();
 

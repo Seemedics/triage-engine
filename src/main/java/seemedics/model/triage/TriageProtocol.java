@@ -3,12 +3,10 @@ package seemedics.model.triage;
 import lombok.*;
 import seemedics.dao.Entity;
 import seemedics.model.Fact;
-import seemedics.model.dialog.PredefAnswer;
-import seemedics.model.metadata.MedSymptomDescriptor;
+import seemedics.triage.engine.NaiveTriageProtocolSelector;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author victorp
@@ -33,7 +31,7 @@ public class TriageProtocol extends Entity {
      * Temp approach. <p>
      * In the future the selection will be implemented using rules engine!!!  <p>
      *
-     * initialSymptom will be used by {@link seemedics.triage.engine.SimpleTriageProtocolSelector}
+     * initialSymptom will be used by {@link NaiveTriageProtocolSelector}
      * in order to select corresponding protocol.
      *
      */

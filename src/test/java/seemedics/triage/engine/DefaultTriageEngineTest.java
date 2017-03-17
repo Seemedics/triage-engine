@@ -73,6 +73,7 @@ public class DefaultTriageEngineTest {
             log.info("User Answer #{} {}",questionCount,userAnswer);
 
             triageResult = triageEngine.next(protocolId,stepId,allFacts,userAnswer.getId());
+            questionCount++;
         }
 
 
