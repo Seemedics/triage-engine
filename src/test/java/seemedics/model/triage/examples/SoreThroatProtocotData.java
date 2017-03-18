@@ -161,7 +161,7 @@ public class SoreThroatProtocotData {
                 .id("ans-yes-white-patches")
                 .name("ans-yes-white-patches")
                 .text("White patches")
-                .imageUrlOpt(Optional.of("http://www.foodpyramid.com/wp-content/uploads/2013/07/white-spots-on-back-of-throat-1.jpg"))
+                .imageUrl("http://www.foodpyramid.com/wp-content/uploads/2013/07/white-spots-on-back-of-throat-1.jpg")
                 .build();
 
 
@@ -169,7 +169,7 @@ public class SoreThroatProtocotData {
                 .id("ans-no-white-patches")
                 .name("ans-no-white-patches")
                 .text("No white patches")
-                .imageUrlOpt(Optional.of("https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTApo2EAy6exxQPG18lo2-eibmgPWiUWQAurlsGl3xaVbS0bjwuwQ"))
+                .imageUrl("https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTApo2EAy6exxQPG18lo2-eibmgPWiUWQAurlsGl3xaVbS0bjwuwQ")
                 .build();
 
 

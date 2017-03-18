@@ -1,14 +1,21 @@
 package seemedics.model.triage;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 import seemedics.model.Fact;
 import seemedics.model.dialog.AnswerToFacts;
 import seemedics.model.dialog.PredefAnswer;
 import seemedics.model.dialog.Question;
 import seemedics.model.triage.examples.SoreThroatProtocotData;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -21,11 +28,19 @@ import java.util.Set;
 @Slf4j
 public class TriageModelTest {
 
+    private ResourceLoader resourceLoader = new DefaultResourceLoader();
+
     @Test
-    public void triageDataUsage(){
+    public void triageDataUsage() throws IOException {
 
 
         TriageProtocol soreThroatProtocol = SoreThroatProtocotData.protocol();
+
+
+        printProtocolAsJson(soreThroatProtocol);
+
+
+
         /**
          * Now we are going to simulate the triage engine
          */
@@ -49,6 +64,19 @@ public class TriageModelTest {
 
         facts.add(soreThroatProtocol.factFromAnswer(answer.getId()).get());
         log.info("Facts so far: {}",facts);
+
+    }
+
+    private void printProtocolAsJson(TriageProtocol soreThroatProtocol) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+
+        String jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(soreThroatProtocol);
+        log.info(jsonInString);
+
+        TriageProtocol protocol =  mapper.readValue(jsonInString, TriageProtocol.class);
+        log.info("protocol: {}",protocol.toString());
 
     }
 }

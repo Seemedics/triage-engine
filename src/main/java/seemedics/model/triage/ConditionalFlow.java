@@ -3,9 +3,13 @@ package seemedics.model.triage;
 import lombok.*;
 import seemedics.dao.Entity;
 import seemedics.model.dialog.Question;
+import seemedics.util.CollectionUtil;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import static seemedics.util.CollectionUtil.toHashMap;
 
 /**
  * @author victorp
@@ -14,6 +18,12 @@ import java.util.Optional;
 @Data
 @Getter
 public class ConditionalFlow extends  TriageFlow {
+    protected ConditionalFlow() {
+    }
+
+    public ConditionalFlow(String id, String name) {
+        super(id, name);
+    }
 
     private Question question;
 
@@ -22,15 +32,14 @@ public class ConditionalFlow extends  TriageFlow {
                            @Singular Map<String, TriageFlow> subFlows) {
         super(id, name);
         this.question = question;
-        this.subFlows = subFlows;
+        this.subFlows = toHashMap(subFlows);
     }
 
     /**
      * AnswerId -> Flow
      */
 
-    @Getter(AccessLevel.PRIVATE)
-    private Map<String,TriageFlow> subFlows;
+    private HashMap<String,TriageFlow> subFlows;
 
     public Optional<TriageFlow> subFlow(String answerId){
         return Optional.ofNullable(subFlows.get(answerId));

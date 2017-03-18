@@ -16,6 +16,9 @@ import java.util.Set;
 @Data
 @Getter
 public class Question extends Entity {
+    protected Question() {
+    }
+
     @Builder
     public Question(String id, String name, String text, @Singular Set<PredefAnswer> choices) {
         super(id, name);
@@ -25,9 +28,9 @@ public class Question extends Entity {
 
 
     @NonNull
-    private final String text;
+    private String text;
 
     @NonNull
-    private final Set<PredefAnswer> choices;
+    private Set<PredefAnswer> choices;
 
 }

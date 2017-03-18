@@ -12,6 +12,10 @@ import seemedics.dao.Entity;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Urgency extends Entity {
+
+    protected Urgency() {
+    }
+
     /**
      * Unique level
      * Starts from 1 when 1 is the most urgent level that means "call emergency now"

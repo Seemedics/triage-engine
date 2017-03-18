@@ -16,11 +16,15 @@ import java.util.Set;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Setter(AccessLevel.PRIVATE)
 @Getter
 public class Fact extends Entity{
 
+    protected Fact() {
+    }
+
     @Builder
-    public Fact(String id, String name, String ref, String status, Optional<Long> timePeriodMillis, @Singular Map<String, String> values) {
+    public Fact(String id, String name, String ref, String status, Long timePeriodMillis, @Singular Map<String, String> values) {
         super(id, name);
         this.ref = ref;
         this.status = status;
@@ -34,7 +38,7 @@ public class Fact extends Entity{
      * 'cancer' (which is condition) <p>
      * 'age' which is human attribute <p>
      */
-    public final String ref;
+    public String ref;
 
 
 
@@ -50,7 +54,12 @@ public class Fact extends Entity{
      * Body temperature 36.6. (the fact is: 'Body temperature is 36.6') - EXISTS
      * The user doesn't know his blood pressure (the fact is: "Blood pressure is unknown) - UNKNOWN
      */
-    public final String status;
+    public String status;
+
+
+
+    @Getter(AccessLevel.PRIVATE)
+    public Long timePeriodMillis;
 
 
     /**
@@ -58,7 +67,9 @@ public class Fact extends Entity{
      * Non empty only if presents=true <p>
      * Empty means unknown <p>
      */
-    public final Optional<Long> timePeriodMillis;
+    public Optional<Long> getTimePeriodMillisOpt(){
+        return Optional.ofNullable(timePeriodMillis);
+    }
 
     /**
      * values must be empty if presents=false <p>
@@ -70,7 +81,7 @@ public class Fact extends Entity{
      *       Symptom is headache; values: pain severity -> moderate <p>
      */
 
-    public final Map<String,String> values;
+    public  Map<String,String> values;
 
     public Set<Fact> asSet(){
         Set<Fact> result = new HashSet<>();
