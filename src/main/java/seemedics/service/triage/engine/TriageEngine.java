@@ -1,7 +1,6 @@
-package seemedics.triage.engine;
+package seemedics.service.triage.engine;
 
 import seemedics.model.Fact;
-import seemedics.model.dialog.PredefAnswer;
 
 import java.util.Set;
 

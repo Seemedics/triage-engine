@@ -1,9 +1,7 @@
 package seemedics.model.triage;
 
 import lombok.*;
-import seemedics.dao.Entity;
 import seemedics.model.dialog.Question;
-import seemedics.util.CollectionUtil;
 
 import java.util.HashMap;
 import java.util.Map;

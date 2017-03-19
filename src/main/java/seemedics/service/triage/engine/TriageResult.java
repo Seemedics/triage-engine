@@ -1,4 +1,4 @@
-package seemedics.triage.engine;
+package seemedics.service.triage.engine;
 
 import lombok.Builder;
 import lombok.Data;

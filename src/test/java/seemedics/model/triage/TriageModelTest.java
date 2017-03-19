@@ -2,22 +2,20 @@ package seemedics.model.triage;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import seemedics.model.Fact;
-import seemedics.model.dialog.AnswerToFacts;
 import seemedics.model.dialog.PredefAnswer;
 import seemedics.model.dialog.Question;
+import seemedics.service.meta.LocalFileMetadata;
 import seemedics.model.triage.examples.SoreThroatProtocotData;
+import seemedics.service.meta.LocalFileMetadata.JsonSerializableMetadata;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 
@@ -37,7 +35,7 @@ public class TriageModelTest {
         TriageProtocol soreThroatProtocol = SoreThroatProtocotData.protocol();
 
 
-        printProtocolAsJson(soreThroatProtocol);
+        printAsJson(soreThroatProtocol,SoreThroatProtocotData.metadata());
 
 
 
@@ -67,16 +65,28 @@ public class TriageModelTest {
 
     }
 
-    private void printProtocolAsJson(TriageProtocol soreThroatProtocol) throws IOException {
+    private void printAsJson(TriageProtocol soreThroatProtocol, JsonSerializableMetadata metadata) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
-        String jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(soreThroatProtocol);
-        log.info(jsonInString);
+        /**
+         * Protocols
+         */
+        String protocolsAsJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(soreThroatProtocol);
+        log.info("protocols json: {}", protocolsAsJson);
 
-        TriageProtocol protocol =  mapper.readValue(jsonInString, TriageProtocol.class);
-        log.info("protocol: {}",protocol.toString());
+        TriageProtocol protocols =  mapper.readValue(protocolsAsJson, TriageProtocol.class);
+        log.info("protocols: {}",protocols.toString());
+
+        /**
+         * Metadata (Symptoms descriptors)
+         */
+        String metadataAsJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(metadata);
+        log.info("symptom descriptors json: {}",metadataAsJson);
+
+        JsonSerializableMetadata metadataFromJson =  mapper.readValue(metadataAsJson, metadata.getClass());
+        log.info("metadata: {}",metadataFromJson.toString());
 
     }
 }

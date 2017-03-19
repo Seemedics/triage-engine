@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.util.StdConverter;
 import lombok.*;
-import seemedics.dao.Entity;
+import seemedics.model.Entity;
 import seemedics.model.Fact;
-import seemedics.triage.engine.NaiveTriageProtocolSelector;
+import seemedics.service.triage.engine.NaiveTriageProtocolSelector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ import static seemedics.util.CollectionUtil.toHashMap;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@JsonDeserialize(converter=TriageProtocol.InitTrantiants.class)
+@JsonDeserialize(converter=TriageProtocol.InitTransients.class)
 public class TriageProtocol extends Entity {
 
     protected TriageProtocol() {
@@ -60,6 +60,8 @@ public class TriageProtocol extends Entity {
     /**
      * All sub Flows of this protocol <p>
      * Useful for continue the flow from the given step <p>
+     * This is transient field that must not be stored but created
+     * on object initialization  <p>
      */
 
     @NonNull
@@ -83,7 +85,7 @@ public class TriageProtocol extends Entity {
     }
 
 
-    public static class InitTrantiants extends StdConverter<TriageProtocol,TriageProtocol>{
+    public static class InitTransients extends StdConverter<TriageProtocol,TriageProtocol>{
 
         @Override
         public TriageProtocol convert(TriageProtocol protocol) {

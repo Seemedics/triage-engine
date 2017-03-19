@@ -1,9 +1,7 @@
 package seemedics.model.metadata;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import seemedics.dao.Entity;
+import lombok.*;
+import seemedics.model.Entity;
 
 /**
  *  Metadata about any medical symptom as: <p>
@@ -12,9 +10,13 @@ import seemedics.dao.Entity;
  */
 
 @Data
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class MedSymptomDescriptor extends Entity{
 
+
+    private MedSymptomDescriptor() {
+    }
 
     /**
      * We must add optional and mandatory fields here

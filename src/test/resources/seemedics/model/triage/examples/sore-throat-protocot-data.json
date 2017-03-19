@@ -31,7 +31,7 @@
         },
         {
           "id": "ans-no-fever",
-          "name": "No fever (36.6 C) C",
+          "name": "No fever (36.6 C)",
           "text": "I have no fever",
           "imageUrl": null
         }

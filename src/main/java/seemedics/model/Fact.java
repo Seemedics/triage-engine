@@ -1,7 +1,6 @@
 package seemedics.model;
 
 import lombok.*;
-import seemedics.dao.Entity;
 
 import java.util.HashSet;
 import java.util.Map;

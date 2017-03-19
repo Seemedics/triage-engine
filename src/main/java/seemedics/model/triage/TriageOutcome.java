@@ -1,7 +1,6 @@
 package seemedics.model.triage;
 
 import lombok.*;
-import seemedics.dao.Entity;
 
 /**
  * @author victorp

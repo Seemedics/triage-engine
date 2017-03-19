@@ -2,7 +2,7 @@ package seemedics.model.triage;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import seemedics.dao.Entity;
+import seemedics.model.Entity;
 
 /**
  * @author victorp

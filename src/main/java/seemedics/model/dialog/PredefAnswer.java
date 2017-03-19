@@ -1,9 +1,7 @@
 package seemedics.model.dialog;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
-import seemedics.dao.Entity;
+import seemedics.model.Entity;
 
 import java.util.Optional;
 

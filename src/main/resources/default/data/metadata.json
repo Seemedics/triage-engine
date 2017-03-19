@@ -1,0 +1,16 @@
+{
+  "symptomDescriptors": {
+    "sym-throat-white-patches": {
+      "id": "sym-throat-white-patches",
+      "name": "White Patches on Throat"
+    },
+    "sym-body-temperature": {
+      "id": "sym-body-temperature",
+      "name": "Body Temperature"
+    },
+    "sym-sore-throat": {
+      "id": "sym-sore-throat",
+      "name": "Sore Throat"
+    }
+  }
+}

@@ -3,7 +3,7 @@ package seemedics.model.triage;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import seemedics.dao.Entity;
+import seemedics.model.Entity;
 
 /**
  * @author victorp

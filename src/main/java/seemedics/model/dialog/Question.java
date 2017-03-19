@@ -1,10 +1,8 @@
 package seemedics.model.dialog;
 
 import lombok.*;
-import seemedics.dao.Entity;
-import seemedics.model.Fact;
+import seemedics.model.Entity;
 
-import java.util.Map;
 import java.util.Set;
 
 /**

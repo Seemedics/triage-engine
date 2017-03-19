@@ -1,4 +1,4 @@
-package seemedics.dao;
+package seemedics.model;
 
 import lombok.*;
 

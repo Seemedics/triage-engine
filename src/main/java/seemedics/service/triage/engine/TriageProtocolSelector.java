@@ -1,4 +1,4 @@
-package seemedics.triage.engine;
+package seemedics.service.triage.engine;
 
 import seemedics.model.Fact;
 import seemedics.model.triage.TriageProtocol;

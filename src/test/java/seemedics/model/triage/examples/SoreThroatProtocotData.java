@@ -4,10 +4,12 @@ import seemedics.model.Fact;
 import seemedics.model.dialog.PredefAnswer;
 import seemedics.model.dialog.Question;
 import seemedics.model.metadata.MedSymptomDescriptor;
+import seemedics.service.meta.LocalFileMetadata;
 import seemedics.model.triage.ConditionalFlow;
 import seemedics.model.triage.TriageOutcome;
 import seemedics.model.triage.TriageProtocol;
 import seemedics.model.triage.Urgency;
+import seemedics.service.meta.LocalFileMetadata.JsonSerializableMetadata;
 
 import java.util.*;
 
@@ -21,10 +23,7 @@ public class SoreThroatProtocotData {
     private static String THROAT_WHITE_PATCHES_DESC_ID = "sym-throat-white-patches";
 
 
-
-
-    public static Map<String, MedSymptomDescriptor> symptomsDescriptors(){
-        Map<String, MedSymptomDescriptor> allSymptoms = new HashMap<>();
+    public static JsonSerializableMetadata metadata(){
 
 
         MedSymptomDescriptor bodyTemperature = MedSymptomDescriptor.builder()
@@ -42,12 +41,14 @@ public class SoreThroatProtocotData {
                 .name("White Patches on Throat")
                 .build();
 
-        allSymptoms.put(bodyTemperature.getId(),bodyTemperature);
-        allSymptoms.put(soreThroat.getId(),soreThroat);
-        allSymptoms.put(throatWhitePatches.getId(),throatWhitePatches);
+
+        return JsonSerializableMetadata.builder()
+                .symptomDescriptor(bodyTemperature)
+                .symptomDescriptor(soreThroat)
+                .symptomDescriptor(throatWhitePatches)
+                .build();
 
 
-        return allSymptoms;
     }
 
     public static Set<Fact> initialFacts() {

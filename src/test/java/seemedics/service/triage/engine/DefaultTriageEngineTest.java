@@ -1,17 +1,13 @@
-package seemedics.triage.engine;
+package seemedics.service.triage.engine;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.stubbing.answers.Returns;
-import org.mockito.internal.stubbing.answers.ReturnsArgumentAt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.boot.test.context.*;
-import org.springframework.boot.test.mock.mockito.*;
 import seemedics.model.Fact;
 import seemedics.model.dialog.PredefAnswer;
 import seemedics.model.dialog.Question;
@@ -20,7 +16,6 @@ import seemedics.model.triage.examples.SoreThroatProtocotData;
 
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 /**
  * @author victorp
