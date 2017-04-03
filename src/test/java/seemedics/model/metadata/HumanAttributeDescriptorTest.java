@@ -31,6 +31,7 @@ public class HumanAttributeDescriptorTest {
         boolean equals = descriptor1.equals(descriptor2);
         Assert.assertThat(equals, Is.is(true));
     }
+
     @Test
     public void different_canEqual_false() throws Exception {
         HumanAttributeDescriptor descriptor1 = new HumanAttributeDescriptor("id1", "name");

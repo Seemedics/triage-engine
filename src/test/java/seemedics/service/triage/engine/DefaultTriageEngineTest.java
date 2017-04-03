@@ -38,6 +38,7 @@ public class DefaultTriageEngineTest {
 
     @Test
     public void init() {
+
         given(triageProtocols.stream()).willReturn(testProtocols.values().stream());
         given(triageProtocols.get(anyString())).will(i -> {
             String protocolId = i.getArgumentAt(0, String.class);

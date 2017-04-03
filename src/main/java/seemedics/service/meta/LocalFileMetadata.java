@@ -37,10 +37,7 @@ import static seemedics.util.CollectionUtil.toHashMap;
 public class LocalFileMetadata implements Metadata {
 
     @Value("${metadata.path}")
-    private Resource metadataResource;
-
-    @Autowired
-    private ResourceLoader resourceLoader;
+    protected Resource metadataResource;
 
     @PostConstruct
     public void init() throws IOException {

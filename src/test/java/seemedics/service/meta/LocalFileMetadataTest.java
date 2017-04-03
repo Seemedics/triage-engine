@@ -1,21 +1,31 @@
 package seemedics.service.meta;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.IOException;
 
 /**
  * Created by igor-z on 01-Apr-17.
  */
-//@RunWith(SpringRunner.class)
+
 public class LocalFileMetadataTest {
-    @Autowired
-    private LocalFileMetadata localFileMetadata;
+
+    private LocalFileMetadata localFileMetadata = new LocalFileMetadata();
+
+
+   @Before
+   public void initTest() throws IOException {
+       localFileMetadata.metadataResource = new ClassPathResource("seemedics/model/triage/examples/symptoms-descriptors.json");
+       localFileMetadata.init();
+   }
+
 
     @Test
     public void init() throws Exception {
-        //LocalFileMetadata localFileMetadata = new LocalFileMetadata();
-        //Assert.assertTrue(true);
         Assert.assertNotNull(localFileMetadata);
     }
 
