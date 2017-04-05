@@ -4,14 +4,15 @@ import seemedics.model.Fact;
 import seemedics.model.dialog.PredefAnswer;
 import seemedics.model.dialog.Question;
 import seemedics.model.metadata.MedSymptomDescriptor;
-import seemedics.service.meta.LocalFileMetadata;
 import seemedics.model.triage.ConditionalFlow;
 import seemedics.model.triage.TriageOutcome;
 import seemedics.model.triage.TriageProtocol;
 import seemedics.model.triage.Urgency;
 import seemedics.service.meta.LocalFileMetadata.JsonSerializableMetadata;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author victorp
@@ -47,8 +48,6 @@ public class SoreThroatProtocotData {
                 .symptomDescriptor(soreThroat)
                 .symptomDescriptor(throatWhitePatches)
                 .build();
-
-
     }
 
     public static Set<Fact> initialFacts() {

@@ -26,7 +26,6 @@ public class LocalFileMetadataTest {
        localFileMetadata.init();
    }
 
-
     @Test
     public void init() throws Exception {
         Assert.assertNotNull(localFileMetadata);
