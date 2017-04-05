@@ -1,12 +1,15 @@
 package seemedics.service.meta;
 
+import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import seemedics.model.metadata.MedSymptomDescriptor;
 
 import java.io.IOException;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Created by igor-z on 01-Apr-17.
@@ -30,13 +33,22 @@ public class LocalFileMetadataTest {
     }
 
     @Test
-    public void getSymptomDescriptor() throws Exception {
-        Assert.fail();
+    public void getSymptomDescriptor_correct_id() throws Exception {
+        Optional<MedSymptomDescriptor> descriptor = localFileMetadata.getSymptomDescriptor("sym-body-temperature");
+        Assert.assertThat(descriptor.get().getId(), Is.is("sym-body-temperature"));
+        Assert.assertThat(descriptor.get().getName(), Is.is("Body Temperature"));
+    }
+
+    @Test
+    public void getSymptomDescriptor_incorrect_id() throws Exception {
+        Optional<MedSymptomDescriptor> descriptor = localFileMetadata.getSymptomDescriptor("_in_correct_id");
+        Assert.assertThat(descriptor.isPresent(), Is.is(false));
     }
 
     @Test
     public void stream() throws Exception {
-        Assert.fail();
+        Stream<MedSymptomDescriptor> stream = localFileMetadata.stream();
+        Assert.assertThat(stream.count(), Is.is(3L));
     }
 
 }
