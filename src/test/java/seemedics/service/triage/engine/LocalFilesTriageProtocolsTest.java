@@ -43,6 +43,4 @@ public class LocalFilesTriageProtocolsTest {
     @Test
     public void stream() throws Exception {
     }
-
-
 }

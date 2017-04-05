@@ -14,8 +14,7 @@ import seemedics.model.triage.TriageProtocol;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -30,9 +29,8 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
     @Value("${metadata.path}")
     protected Resource metadataResource;
 
-    private Map<String, TriageProtocol> protocols;
     @Getter(AccessLevel.PRIVATE)
-    private LocalFilesTriageProtocols.JsonSerializableMetadata metadata;
+    private Map<String, TriageProtocol> protocols;
 
     @PostConstruct
     public void init() throws IOException {
@@ -42,8 +40,11 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         String metadataJson = FileCopyUtils.copyToString(new InputStreamReader(metadataResource.getInputStream()));
-        metadata =  mapper.readValue(metadataJson, LocalFilesTriageProtocols.JsonSerializableMetadata.class);
-        log.info("metadata: {}", metadata.toString());
+        TriageProtocol protocol = mapper.readValue(metadataJson, TriageProtocol.class);
+        protocols = new HashMap<String, TriageProtocol>();
+        protocols.put(protocol.getId(), protocol);
+
+        log.info("metadata: {}", protocols.toString());
     }
 
     @Override
@@ -54,25 +55,5 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
     @Override
     public Optional<TriageProtocol> get(String id) {
         return Optional.ofNullable(protocols.get(id));
-    }
-
-//    /**
-//     * @return Id -> MedSymptomDescriptor map
-//     */
-//    private static Map<String, TriageProtocol> toMap(TriageProtocol triageProtocol) {
-//        return triageProtocolTriageProtocol::getId, identity()));
-//    }
-
-    @Data
-    public static class JsonSerializableMetadata{
-
-        private JsonSerializableMetadata() {
-        }
-
-        @Builder
-        public JsonSerializableMetadata(TriageProtocol triageProtocol) {
-            this.triageProtocol = triageProtocol;
-        }
-        private TriageProtocol triageProtocol;
     }
 }
