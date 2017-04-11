@@ -14,8 +14,15 @@ import seemedics.model.triage.TriageProtocol;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.function.Function.identity;
+import static seemedics.util.CollectionUtil.toHashMap;
 
 /**
  * Temporary impl that lads all protocols from the given directory
@@ -40,9 +47,11 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         String metadataJson = FileCopyUtils.copyToString(new InputStreamReader(metadataResource.getInputStream()));
-        TriageProtocol protocol = mapper.readValue(metadataJson, TriageProtocol.class);
-        protocols = new HashMap<String, TriageProtocol>();
-        protocols.put(protocol.getId(), protocol);
+        //TriageProtocol protocol = mapper.readValue(metadataJson, TriageProtocol.class);
+        JsonSerializableMetadata metadata = mapper.readValue(metadataJson, JsonSerializableMetadata.class);
+        protocols = metadata.protocols;
+        //protocols = new HashMap<String, TriageProtocol>();
+        //protocols.put(protocol.getId(), protocol);
 
         log.info("metadata: {}", protocols.toString());
     }
@@ -56,4 +65,22 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
     public Optional<TriageProtocol> get(String id) {
         return Optional.ofNullable(protocols.get(id));
     }
+
+    private static Map<String, TriageProtocol> toMap(Set<TriageProtocol> symptomDescriptors) {
+        return symptomDescriptors.stream()
+            .collect(Collectors.toMap(TriageProtocol::getId, identity()));
+    }
+    @Data
+    public static class JsonSerializableMetadata{
+
+        private JsonSerializableMetadata() {
+        }
+
+        @Builder
+        public JsonSerializableMetadata(@Singular Set<TriageProtocol> protocols) {
+            this.protocols = toHashMap(toMap(protocols));
+        }
+        private HashMap<String,TriageProtocol> protocols;
+    }
+
 }

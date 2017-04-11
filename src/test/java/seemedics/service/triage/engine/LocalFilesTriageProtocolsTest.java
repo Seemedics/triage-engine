@@ -9,6 +9,7 @@ import seemedics.model.triage.TriageProtocol;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Created by igor-z on 05-Apr-17.
@@ -42,5 +43,7 @@ public class LocalFilesTriageProtocolsTest {
 
     @Test
     public void stream() throws Exception {
+        Stream<TriageProtocol> stream = localFilesTriageProtocols.stream();
+        Assert.assertThat(stream.count(), Is.is(1L));
     }
 }

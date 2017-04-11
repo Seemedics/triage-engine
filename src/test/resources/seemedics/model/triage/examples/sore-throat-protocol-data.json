@@ -1,8 +1,12 @@
 {
-  "id": "tri-prot-sore-throat",
-  "name": "Sore Throat",
-  "initialSymptomDescId": "sym-sore-throat",
-  "flow": {
+  "protocols":
+  {
+    "tri-prot-sore-throat":
+    {
+      "id": "tri-prot-sore-throat",
+      "name": "Sore Throat",
+      "initialSymptomDescId": "sym-sore-throat",
+      "flow": {
     "@class": ".ConditionalFlow",
     "id": "flow-sore-throat",
     "name": "Sore Throat",
@@ -195,8 +199,9 @@
       }
     }
   },
-  "ans2facts": {
-    "ans-fever=39-40": {
+      "ans2facts":
+      {
+        "ans-fever=39-40": {
       "id": "fact-fever-39-40",
       "name": "Body Temperature 39-40",
       "ref": "sym-body-temperature",
@@ -206,7 +211,7 @@
         "temperature": "39-40"
       }
     },
-    "ans-fever=37-39": {
+        "ans-fever=37-39": {
       "id": "fact-fever-37-39",
       "name": "Body Temperature 37-39",
       "ref": "sym-body-temperature",
@@ -216,7 +221,7 @@
         "temperature": "37-39"
       }
     },
-    "ans-no-fever": {
+        "ans-no-fever": {
       "id": "fact-fever-36-37",
       "name": "Body Temperature 36-37",
       "ref": "sym-body-temperature",
@@ -226,7 +231,7 @@
         "temperature": "36-37"
       }
     },
-    "ans-yes-white-patches": {
+        "ans-yes-white-patches": {
       "id": "fact-no-white-patches-in-throat",
       "name": "No White Patches inside Throat",
       "ref": "sym-throat-white-patches",
@@ -234,7 +239,7 @@
       "timePeriodMillis": null,
       "values": {}
     },
-    "ans-no-white-patches": {
+        "ans-no-white-patches": {
       "id": "fact-no-white-patches-in-throat",
       "name": "No White Patches inside Throat",
       "ref": "sym-throat-white-patches",
@@ -242,7 +247,7 @@
       "timePeriodMillis": null,
       "values": {}
     },
-    "ans-fever=40-42": {
+        "ans-fever=40-42": {
       "id": "fact-fever-40-42",
       "name": "Body Temperature 40-42",
       "ref": "sym-body-temperature",
@@ -250,6 +255,8 @@
       "timePeriodMillis": null,
       "values": {
         "temperature": "40-42"
+      }
+    }
       }
     }
   }
