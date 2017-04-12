@@ -8,12 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 import seemedics.model.triage.TriageProtocol;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -46,13 +46,11 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
-        String metadataJson = FileCopyUtils.copyToString(new InputStreamReader(metadataResource.getInputStream()));
-        //TriageProtocol protocol = mapper.readValue(metadataJson, TriageProtocol.class);
-        JsonSerializableMetadata metadata = mapper.readValue(metadataJson, JsonSerializableMetadata.class);
-        protocols = metadata.protocols;
-        //protocols = new HashMap<String, TriageProtocol>();
-        //protocols.put(protocol.getId(), protocol);
-
+        try (Reader reader = new InputStreamReader(metadataResource.getInputStream()))
+        {
+            JsonSerializableMetadata metadata = mapper.readValue(reader, JsonSerializableMetadata.class);
+            protocols = metadata.protocols;
+        }
         log.info("metadata: {}", protocols.toString());
     }
 
@@ -66,13 +64,12 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
         return Optional.ofNullable(protocols.get(id));
     }
 
-    private static Map<String, TriageProtocol> toMap(Set<TriageProtocol> symptomDescriptors) {
-        return symptomDescriptors.stream()
+    private static Map<String, TriageProtocol> toMap(Set<TriageProtocol> protocols) {
+        return protocols.stream()
             .collect(Collectors.toMap(TriageProtocol::getId, identity()));
     }
     @Data
     public static class JsonSerializableMetadata{
-
         private JsonSerializableMetadata() {
         }
 
@@ -82,5 +79,4 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
         }
         private HashMap<String,TriageProtocol> protocols;
     }
-
 }
