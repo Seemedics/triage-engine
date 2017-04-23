@@ -30,13 +30,13 @@ public class LocalFilesTriageProtocolsTest {
     }
 
     @Test
-    public void get_correct_id() throws Exception {
+    public void getCorrectId() throws Exception {
         Optional<TriageProtocol> protool = localFilesTriageProtocols.get("tri-prot-sore-throat");
         Assert.assertThat(protool.get().getId(), Is.is("tri-prot-sore-throat"));
     }
 
     @Test
-    public void get_incorrect_id() throws Exception {
+    public void getIncorrectId() throws Exception {
         Optional<TriageProtocol> protool = localFilesTriageProtocols.get("_incorrect_id_");
         Assert.assertThat(protool.isPresent(), Is.is(false));
     }

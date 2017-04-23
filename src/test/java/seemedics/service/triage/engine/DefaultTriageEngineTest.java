@@ -72,17 +72,10 @@ public class DefaultTriageEngineTest {
             questionCount++;
         }
 
-
         //Final Result
         allFacts.addAll(triageResult.newFacts);
 
         log.info("Triage urgency: {}", triageResult.getUrgency().get());
         log.info("All facts from triage: {}",allFacts);
-
-
-
-
     }
-
-
 }

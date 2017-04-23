@@ -32,14 +32,14 @@ public class LocalFileMetadataTest {
     }
 
     @Test
-    public void getSymptomDescriptor_correct_id() throws Exception {
+    public void getSymptomDescriptorCorrectId() throws Exception {
         Optional<MedSymptomDescriptor> descriptor = localFileMetadata.getSymptomDescriptor("sym-body-temperature");
         Assert.assertThat(descriptor.get().getId(), Is.is("sym-body-temperature"));
         Assert.assertThat(descriptor.get().getName(), Is.is("Body Temperature"));
     }
 
     @Test
-    public void getSymptomDescriptor_incorrect_id() throws Exception {
+    public void getSymptomDescriptorIncorrectId() throws Exception {
         Optional<MedSymptomDescriptor> descriptor = localFileMetadata.getSymptomDescriptor("_in_correct_id");
         Assert.assertThat(descriptor.isPresent(), Is.is(false));
     }
@@ -49,5 +49,4 @@ public class LocalFileMetadataTest {
         Stream<MedSymptomDescriptor> stream = localFileMetadata.stream();
         Assert.assertThat(stream.count(), Is.is(3L));
     }
-
 }
