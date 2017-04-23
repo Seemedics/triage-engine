@@ -5,10 +5,8 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import seemedics.model.metadata.MedSymptomDescriptor;
@@ -37,10 +35,7 @@ import static seemedics.util.CollectionUtil.toHashMap;
 public class LocalFileMetadata implements Metadata {
 
     @Value("${metadata.path}")
-    private Resource metadataResource;
-
-    @Autowired
-    private ResourceLoader resourceLoader;
+    protected Resource metadataResource;
 
     @PostConstruct
     public void init() throws IOException {
@@ -48,7 +43,6 @@ public class LocalFileMetadata implements Metadata {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-
 
         String metadataJson = FileCopyUtils.copyToString(new InputStreamReader(metadataResource.getInputStream()));
         metadata =  mapper.readValue(metadataJson, JsonSerializableMetadata.class);

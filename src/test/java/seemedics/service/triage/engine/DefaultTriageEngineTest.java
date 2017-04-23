@@ -38,6 +38,7 @@ public class DefaultTriageEngineTest {
 
     @Test
     public void init() {
+
         given(triageProtocols.stream()).willReturn(testProtocols.values().stream());
         given(triageProtocols.get(anyString())).will(i -> {
             String protocolId = i.getArgumentAt(0, String.class);
@@ -71,17 +72,10 @@ public class DefaultTriageEngineTest {
             questionCount++;
         }
 
-
         //Final Result
         allFacts.addAll(triageResult.newFacts);
 
         log.info("Triage urgency: {}", triageResult.getUrgency().get());
         log.info("All facts from triage: {}",allFacts);
-
-
-
-
     }
-
-
 }
