@@ -23,7 +23,7 @@ import static java.util.function.Function.identity;
 import static seemedics.util.CollectionUtil.toHashMap;
 
 /**
- * Temporary impl that lads all protocols from the given directory
+ * Loads all protocols from the given file or directory
  * from the local file system.
  *
  * @author victorp
@@ -42,25 +42,26 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
         log.info("metadataResource: {}", metadataResource);
 
         //TODO how to define file or directory.
-        File f = (metadataResource).getFile();
+        File f = metadataResource.getFile();
         if (!f.exists())
             throw new IOException(String.format("Not found file or directory %s", f.getAbsolutePath()));
 
         if (!f.isDirectory())
         {
-            protocols = LoadProtocols(metadataResource.getInputStream());
+            protocols = loadProtocols(metadataResource.getInputStream());
         } else {
             protocols = new HashMap<>();
-            for (final File fileEntry: f.listFiles()) { //TODO implement filter
+            FileFilter jsonFilter = pathname -> pathname.getName().endsWith(".json");
+            for (final File fileEntry: f.listFiles(jsonFilter)) { //TODO http://stackoverflow.com/questions/1844688/read-all-files-in-a-folder
                 InputStream inputStream = new FileInputStream(fileEntry);
-                Map<String, TriageProtocol> fileProtocols = LoadProtocols(inputStream);
+                Map<String, TriageProtocol> fileProtocols = loadProtocols(inputStream);
                 protocols.putAll(fileProtocols);
             }
         }
         log.info("metadata: {}", protocols.toString());
     }
 
-    private Map<String, TriageProtocol> LoadProtocols(InputStream inputStream) throws IOException {
+    private Map<String, TriageProtocol> loadProtocols(InputStream inputStream) throws IOException {
         //TODO remove to class's field
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
