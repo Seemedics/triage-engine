@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import seemedics.model.triage.TriageProtocol;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -42,16 +40,37 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
     @PostConstruct
     public void init() throws IOException {
         log.info("metadataResource: {}", metadataResource);
+
+        //TODO how to define file or directory.
+        File f = (metadataResource).getFile();
+        if (!f.exists())
+            throw new IOException(String.format("Not found file or directory %s", f.getAbsolutePath()));
+
+        if (!f.isDirectory())
+        {
+            protocols = LoadProtocols(metadataResource.getInputStream());
+        } else {
+            protocols = new HashMap<>();
+            for (final File fileEntry: f.listFiles()) { //TODO implement filter
+                InputStream inputStream = new FileInputStream(fileEntry);
+                Map<String, TriageProtocol> fileProtocols = LoadProtocols(inputStream);
+                protocols.putAll(fileProtocols);
+            }
+        }
+        log.info("metadata: {}", protocols.toString());
+    }
+
+    private Map<String, TriageProtocol> LoadProtocols(InputStream inputStream) throws IOException {
+        //TODO remove to class's field
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
-        try (Reader reader = new InputStreamReader(metadataResource.getInputStream()))
+        try (Reader reader = new InputStreamReader(inputStream))
         {
             JsonSerializableMetadata metadata = mapper.readValue(reader, JsonSerializableMetadata.class);
-            protocols = metadata.protocols;
+            return metadata.protocols;
         }
-        log.info("metadata: {}", protocols.toString());
     }
 
     @Override
