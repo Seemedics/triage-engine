@@ -15,6 +15,8 @@ public class LocalDirectoryTriageProtocolsTest {
 
     @Before
     public void initTest() throws IOException {
+        //TODO
+//        Path resourceDirectory = Paths.get("seemedics\\model\\triage\\protocolsDirectory");
         localFilesTriageProtocols.metadataResource = new ClassPathResource("seemedics\\model\\triage\\protocolsDirectory");
         localFilesTriageProtocols.init();
     }
