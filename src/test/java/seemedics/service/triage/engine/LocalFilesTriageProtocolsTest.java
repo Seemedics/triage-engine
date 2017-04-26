@@ -4,10 +4,11 @@ import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 import seemedics.model.triage.TriageProtocol;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -20,7 +21,8 @@ public class LocalFilesTriageProtocolsTest {
 
     @Before
     public void initTest() throws IOException {
-        localFilesTriageProtocols.metadataResource = new ClassPathResource("seemedics/model/triage/examples/sore-throat-protocol-data.json");
+        Path protocolsFile = Paths.get("src/test/resources/seemedics/model/triage/examples/sore-throat-protocol-data.json");
+        localFilesTriageProtocols.pathToProtocolsFile = protocolsFile;
         localFilesTriageProtocols.init();
     }
 

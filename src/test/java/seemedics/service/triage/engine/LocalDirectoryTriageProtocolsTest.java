@@ -3,7 +3,6 @@ package seemedics.service.triage.engine;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -17,9 +16,8 @@ public class LocalDirectoryTriageProtocolsTest {
 
     @Before
     public void initTest() throws IOException {
-        //TODO
-      Path resourceDirectory = Paths.get("seemedics\\model\\triage\\protocolsDirectory");
-        localFilesTriageProtocols.metadataResource = new ClassPathResource("seemedics\\model\\triage\\protocolsDirectory");
+        Path resourceDirectory = Paths.get("src/test/resources/seemedics/model/triage/protocolsDirectory");
+        localFilesTriageProtocols.pathToProtocolsFile = resourceDirectory;
         localFilesTriageProtocols.init();
     }
 
