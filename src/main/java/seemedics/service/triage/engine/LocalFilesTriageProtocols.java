@@ -1,9 +1,7 @@
 package seemedics.service.triage.engine;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -15,12 +13,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static java.util.function.Function.identity;
-import static seemedics.util.CollectionUtil.toHashMap;
 
 /**
  * Loads all protocols from the given file or directory
@@ -40,6 +33,7 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
     @PostConstruct
     public void init() throws IOException {
         log.info("metadataResource: {}", metadataResource);
+        LoadFileProtocol loadFileProtocol = new LoadFileProtocol();
 
         //TODO how to define file or directory.
         File f = metadataResource.getFile();
@@ -48,30 +42,17 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
 
         if (!f.isDirectory())
         {
-            protocols = loadProtocols(metadataResource.getInputStream());
+            protocols = loadFileProtocol.LoadProtocols(metadataResource.getInputStream());
         } else {
             protocols = new HashMap<>();
             FileFilter jsonFilter = pathname -> pathname.getName().endsWith(".json");
-            for (final File fileEntry: f.listFiles(jsonFilter)) { //TODO http://stackoverflow.com/questions/1844688/read-all-files-in-a-folder
+            for (final File fileEntry: f.listFiles(jsonFilter)) {
                 InputStream inputStream = new FileInputStream(fileEntry);
-                Map<String, TriageProtocol> fileProtocols = loadProtocols(inputStream);
+                Map<String, TriageProtocol> fileProtocols = loadFileProtocol.LoadProtocols(inputStream);
                 protocols.putAll(fileProtocols);
             }
         }
         log.info("metadata: {}", protocols.toString());
-    }
-
-    private Map<String, TriageProtocol> loadProtocols(InputStream inputStream) throws IOException {
-        //TODO remove to class's field
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
-        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-
-        try (Reader reader = new InputStreamReader(inputStream))
-        {
-            JsonSerializableMetadata metadata = mapper.readValue(reader, JsonSerializableMetadata.class);
-            return metadata.protocols;
-        }
     }
 
     @Override
@@ -83,20 +64,5 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
     public Optional<TriageProtocol> get(String id) {
         return Optional.ofNullable(protocols.get(id));
     }
-
-    private static Map<String, TriageProtocol> toMap(Set<TriageProtocol> protocols) {
-        return protocols.stream()
-            .collect(Collectors.toMap(TriageProtocol::getId, identity()));
-    }
-    @Data
-    public static class JsonSerializableMetadata{
-        private JsonSerializableMetadata() {
-        }
-
-        @Builder
-        public JsonSerializableMetadata(@Singular Set<TriageProtocol> protocols) {
-            this.protocols = toHashMap(toMap(protocols));
-        }
-        private HashMap<String,TriageProtocol> protocols;
-    }
 }
+
