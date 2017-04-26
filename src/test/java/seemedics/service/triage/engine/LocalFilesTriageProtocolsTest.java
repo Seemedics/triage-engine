@@ -21,8 +21,8 @@ public class LocalFilesTriageProtocolsTest {
 
     @Before
     public void initTest() throws IOException {
-        Path protocolsFile = Paths.get("src/test/resources/seemedics/model/triage/examples/sore-throat-protocol-data.json");
-        localFilesTriageProtocols.pathToProtocolsFile = protocolsFile;
+        Path pathToProtocolsFile = Paths.get("src/test/resources/seemedics/model/triage/examples/sore-throat-protocol-data.json");
+        localFilesTriageProtocols.pathToProtocolsFile = pathToProtocolsFile;
         localFilesTriageProtocols.init();
     }
 
