@@ -1,31 +1,22 @@
 package seemedics.service.triage.engine;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import seemedics.model.triage.TriageProtocol;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.function.Function.identity;
-import static seemedics.util.CollectionUtil.toHashMap;
-
 /**
- * Temporary impl that lads all protocols from the given directory
+ * Loads all protocols from the given file or directory
  * from the local file system.
  *
  * @author victorp
@@ -34,22 +25,36 @@ import static seemedics.util.CollectionUtil.toHashMap;
 @Service
 public class LocalFilesTriageProtocols implements TriageProtocols {
     @Value("${metadata.path}")
-    protected Resource metadataResource;
+    protected Path pathToProtocolsFile;
 
     @Getter(AccessLevel.PRIVATE)
     private Map<String, TriageProtocol> protocols;
 
     @PostConstruct
     public void init() throws IOException {
-        log.info("metadataResource: {}", metadataResource);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
-        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        //Path pathToProtocolsFile = Paths.get(_metadataResource.getFilename());
+        log.info("metadataResource: {}", pathToProtocolsFile);
+        LoadFileProtocol loadFileProtocol = new LoadFileProtocol();
 
-        try (Reader reader = new InputStreamReader(metadataResource.getInputStream()))
+        //TODO how to define file or directory.
+        File f = pathToProtocolsFile.toAbsolutePath().toFile();
+        if (!f.exists())
+            throw new IOException(String.format("Not found file or directory %s", f.getAbsolutePath()));
+
+        if (!f.isDirectory())
         {
-            JsonSerializableMetadata metadata = mapper.readValue(reader, JsonSerializableMetadata.class);
-            protocols = metadata.protocols;
+            try (InputStream inputStream = new FileInputStream(f)){
+                protocols = loadFileProtocol.LoadProtocols(inputStream);
+            }
+        } else {
+            protocols = new HashMap<>();
+            FileFilter jsonFilter = pathname -> pathname.getName().endsWith(".json");
+            for (final File fileEntry: f.listFiles(jsonFilter)) {
+                try (InputStream inputStream = new FileInputStream(fileEntry)) {
+                    Map<String, TriageProtocol> fileProtocols = loadFileProtocol.LoadProtocols(inputStream);
+                    protocols.putAll(fileProtocols);
+                }
+            }
         }
         log.info("metadata: {}", protocols.toString());
     }
@@ -63,20 +68,5 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
     public Optional<TriageProtocol> get(String id) {
         return Optional.ofNullable(protocols.get(id));
     }
-
-    private static Map<String, TriageProtocol> toMap(Set<TriageProtocol> protocols) {
-        return protocols.stream()
-            .collect(Collectors.toMap(TriageProtocol::getId, identity()));
-    }
-    @Data
-    public static class JsonSerializableMetadata{
-        private JsonSerializableMetadata() {
-        }
-
-        @Builder
-        public JsonSerializableMetadata(@Singular Set<TriageProtocol> protocols) {
-            this.protocols = toHashMap(toMap(protocols));
-        }
-        private HashMap<String,TriageProtocol> protocols;
-    }
 }
+

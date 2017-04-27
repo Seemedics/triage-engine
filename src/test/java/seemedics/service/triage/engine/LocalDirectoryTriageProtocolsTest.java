@@ -13,16 +13,15 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Created by igor-z on 05-Apr-17.
+ * Created by igor-z on 24-Apr-17.
  */
-public class LocalFilesTriageProtocolsTest {
-
+public class LocalDirectoryTriageProtocolsTest {
     private LocalFilesTriageProtocols localFilesTriageProtocols = new LocalFilesTriageProtocols();
 
     @Before
     public void initTest() throws IOException {
-        Path pathToProtocolsFile = Paths.get("src/test/resources/seemedics/model/triage/examples/sore-throat-protocol-data.json");
-        localFilesTriageProtocols.pathToProtocolsFile = pathToProtocolsFile;
+        Path pathToProtocolsFolder = Paths.get("src/test/resources/seemedics/model/triage/protocolsDirectory");
+        localFilesTriageProtocols.pathToProtocolsFile = pathToProtocolsFolder;
         localFilesTriageProtocols.init();
     }
 
@@ -46,6 +45,7 @@ public class LocalFilesTriageProtocolsTest {
     @Test
     public void stream() throws Exception {
         Stream<TriageProtocol> stream = localFilesTriageProtocols.stream();
-        Assert.assertThat(stream.count(), Is.is(1L));
+        Assert.assertThat(stream.count(), Is.is(2L));
     }
+
 }
