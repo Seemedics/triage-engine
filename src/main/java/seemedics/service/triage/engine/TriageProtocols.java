@@ -33,6 +33,5 @@ public interface TriageProtocols {
      * @return protocol by its ID
      */
     Optional<TriageProtocol> get(String id);
-
-
 }
+

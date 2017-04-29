@@ -3,13 +3,11 @@ package seemedics.service.triage.engine;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import seemedics.model.triage.TriageProtocol;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,8 +22,10 @@ import java.util.stream.Stream;
 @Slf4j
 @Service
 public class LocalFilesTriageProtocols implements TriageProtocols {
-    @Value("${metadata.path}")
-    protected Path pathToProtocolsFile;
+//    @Value("${metadata.path}")
+//    protected Path pathToProtocolsFile;
+
+    protected TriageProtocolsSource triageProtocolsSource;
 
     @Getter(AccessLevel.PRIVATE)
     private Map<String, TriageProtocol> protocols;
@@ -33,11 +33,11 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
     @PostConstruct
     public void init() throws IOException {
         //Path pathToProtocolsFile = Paths.get(_metadataResource.getFilename());
-        log.info("metadataResource: {}", pathToProtocolsFile);
+        log.info("metadataResource: {}", triageProtocolsSource.get_pathToProtocols());
         LoadFileProtocol loadFileProtocol = new LoadFileProtocol();
 
         //TODO how to define file or directory.
-        File f = pathToProtocolsFile.toAbsolutePath().toFile();
+        File f = triageProtocolsSource.get_pathToProtocols().toAbsolutePath().toFile();
         if (!f.exists())
             throw new IOException(String.format("Not found file or directory %s", f.getAbsolutePath()));
 

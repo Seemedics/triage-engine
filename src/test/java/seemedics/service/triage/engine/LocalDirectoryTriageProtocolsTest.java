@@ -18,10 +18,17 @@ import java.util.stream.Stream;
 public class LocalDirectoryTriageProtocolsTest {
     private LocalFilesTriageProtocols localFilesTriageProtocols = new LocalFilesTriageProtocols();
 
+    private class UnitTestTriageProtocolsSource implements TriageProtocolsSource{
+
+        @Override
+        public Path get_pathToProtocols() {
+            return Paths.get("src/test/resources/seemedics/model/triage/protocolsDirectory");
+        }
+    }
+
     @Before
     public void initTest() throws IOException {
-        Path pathToProtocolsFolder = Paths.get("src/test/resources/seemedics/model/triage/protocolsDirectory");
-        localFilesTriageProtocols.pathToProtocolsFile = pathToProtocolsFolder;
+        localFilesTriageProtocols.triageProtocolsSource = new UnitTestTriageProtocolsSource();
         localFilesTriageProtocols.init();
     }
 

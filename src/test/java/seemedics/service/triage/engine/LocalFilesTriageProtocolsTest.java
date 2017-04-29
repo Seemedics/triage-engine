@@ -19,10 +19,17 @@ public class LocalFilesTriageProtocolsTest {
 
     private LocalFilesTriageProtocols localFilesTriageProtocols = new LocalFilesTriageProtocols();
 
+    private class UnitTestTriageProtocolsSource implements TriageProtocolsSource{
+
+        @Override
+        public Path get_pathToProtocols() {
+            return Paths.get("src/test/resources/seemedics/model/triage/examples/sore-throat-protocol-data.json");
+        }
+    }
+
     @Before
     public void initTest() throws IOException {
-        Path pathToProtocolsFile = Paths.get("src/test/resources/seemedics/model/triage/examples/sore-throat-protocol-data.json");
-        localFilesTriageProtocols.pathToProtocolsFile = pathToProtocolsFile;
+        localFilesTriageProtocols.triageProtocolsSource = new UnitTestTriageProtocolsSource();
         localFilesTriageProtocols.init();
     }
 
