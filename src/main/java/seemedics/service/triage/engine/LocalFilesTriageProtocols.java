@@ -3,6 +3,7 @@ package seemedics.service.triage.engine;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seemedics.model.triage.TriageProtocol;
 
@@ -22,9 +23,8 @@ import java.util.stream.Stream;
 @Slf4j
 @Service
 public class LocalFilesTriageProtocols implements TriageProtocols {
-//    @Value("${metadata.path}")
-//    protected Path pathToProtocolsFile;
 
+    @Autowired
     protected TriageProtocolsSource triageProtocolsSource;
 
     @Getter(AccessLevel.PRIVATE)

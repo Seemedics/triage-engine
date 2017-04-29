@@ -17,9 +17,6 @@ import seemedics.model.triage.examples.SoreThroatProtocotData;
 import java.util.*;
 
 import static org.mockito.BDDMockito.*;
-/**
- * @author victorp
- */
 
 @Slf4j
 @RunWith(SpringRunner.class)

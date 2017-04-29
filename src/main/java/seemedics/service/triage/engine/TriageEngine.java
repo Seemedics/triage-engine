@@ -29,7 +29,4 @@ public interface TriageEngine {
      * @return the result from this step (my be final or intermediate)
      */
     TriageResult next(String protocolId,String stepId,Set<Fact> knownFacts,  String answerId);
-
-
-
 }
