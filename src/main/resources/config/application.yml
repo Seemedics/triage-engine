@@ -1,2 +1,5 @@
 metadata:
   path: classpath:default/data/metadata.json
+
+protocol:
+    path: protocols-directory-is-not-defined

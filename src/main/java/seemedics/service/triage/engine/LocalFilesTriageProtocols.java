@@ -6,13 +6,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seemedics.model.triage.TriageProtocol;
+import seemedics.serializer.ProtocolSerializer;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.function.Function.identity;
 
 /**
  * Loads all protocols from the given file or directory
@@ -32,30 +35,9 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
 
     @PostConstruct
     public void init() throws IOException {
-        //Path pathToProtocolsFile = Paths.get(_metadataResource.getFilename());
-        log.info("metadataResource: {}", triageProtocolsSource.get_pathToProtocols());
-        LoadFileProtocol loadFileProtocol = new LoadFileProtocol();
-
-        //TODO how to define file or directory.
-        File f = triageProtocolsSource.get_pathToProtocols().toAbsolutePath().toFile();
-        if (!f.exists())
-            throw new IOException(String.format("Not found file or directory %s", f.getAbsolutePath()));
-
-        if (!f.isDirectory())
-        {
-            try (InputStream inputStream = new FileInputStream(f)){
-                protocols = loadFileProtocol.LoadProtocols(inputStream);
-            }
-        } else {
-            protocols = new HashMap<>();
-            FileFilter jsonFilter = pathname -> pathname.getName().endsWith(".json");
-            for (final File fileEntry: f.listFiles(jsonFilter)) {
-                try (InputStream inputStream = new FileInputStream(fileEntry)) {
-                    Map<String, TriageProtocol> fileProtocols = loadFileProtocol.LoadProtocols(inputStream);
-                    protocols.putAll(fileProtocols);
-                }
-            }
-        }
+        protocols = triageProtocolsSource.inputStreams()
+                        .flatMap(ProtocolSerializer::loadProtocols)
+                        .collect(Collectors.toMap(TriageProtocol::getId, identity()));
         log.info("metadata: {}", protocols.toString());
     }
 
