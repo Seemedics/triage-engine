@@ -12,13 +12,13 @@ import java.util.function.Predicate;
 /**
  * @author victorp
  */
-public class DefaultTraigeProtocolsSourceTest {
+public class DefaultTriageProtocolsSourceTest {
     private static final ObjectMapper mapper = new ObjectMapper();
 
 
     @Test
     public void allJsonFilesAreLoaded(){
-        DefaultTraigeProtocolsSource traigeProtocolsSource = new DefaultTraigeProtocolsSource();
+        DefaultTriageProtocolsSource traigeProtocolsSource = new DefaultTriageProtocolsSource();
         traigeProtocolsSource.pathToProtocols = Paths.get("src/test/resources/seemedics/model/triage/engine");
 
         traigeProtocolsSource.inputStreams()

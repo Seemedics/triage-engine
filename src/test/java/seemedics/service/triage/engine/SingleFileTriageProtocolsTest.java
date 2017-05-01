@@ -44,14 +44,14 @@ public class SingleFileTriageProtocolsTest {
 
     @Test
     public void getCorrectId() throws Exception {
-        Optional<TriageProtocol> protool = localFilesTriageProtocols.get("tri-prot-test-01");
-        Assert.assertThat(protool.get().getId(), Is.is("tri-prot-test-01"));
+        Optional<TriageProtocol> protocol = localFilesTriageProtocols.get("tri-prot-test-01");
+        Assert.assertThat(protocol.get().getId(), Is.is("tri-prot-test-01"));
     }
 
     @Test
     public void getIncorrectId() throws Exception {
-        Optional<TriageProtocol> protool = localFilesTriageProtocols.get("_incorrect_id_");
-        Assert.assertThat(protool.isPresent(), Is.is(false));
+        Optional<TriageProtocol> protocol = localFilesTriageProtocols.get("_incorrect_id_");
+        Assert.assertThat(protocol.isPresent(), Is.is(false));
     }
 
     @Test

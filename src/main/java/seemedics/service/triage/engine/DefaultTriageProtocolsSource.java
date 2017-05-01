@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 @Slf4j
 @Service
-public class DefaultTraigeProtocolsSource implements TriageProtocolsSource
+public class DefaultTriageProtocolsSource implements TriageProtocolsSource
 {
     @Value("${protocol.path}")
     protected Path pathToProtocols;
@@ -37,7 +37,7 @@ public class DefaultTraigeProtocolsSource implements TriageProtocolsSource
 
     private Stream<InputStream> fromFile(Path pathToProtocols) {
         return Lists.newArrayList(pathToProtocols.toAbsolutePath().toString()).stream()
-                .map(DefaultTraigeProtocolsSource::toInputStream);
+                .map(DefaultTriageProtocolsSource::toInputStream);
     }
 
     private static InputStream toInputStream(String pathToFile){
@@ -54,7 +54,7 @@ public class DefaultTraigeProtocolsSource implements TriageProtocolsSource
                     .map(String::valueOf)
                     .filter(path -> !path.startsWith("."))
                     .filter(path -> path.endsWith(".json"))
-                    .map(DefaultTraigeProtocolsSource::toInputStream)
+                    .map(DefaultTriageProtocolsSource::toInputStream)
                     .collect(Collectors.toSet());
             return inStreams.stream();
         } catch (IOException e) {
