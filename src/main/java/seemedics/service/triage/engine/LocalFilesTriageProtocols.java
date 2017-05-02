@@ -38,7 +38,9 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
         protocols = triageProtocolsSource.inputStreams()
                         .flatMap(ProtocolSerializer::loadProtocols)
                         .collect(Collectors.toMap(TriageProtocol::getId, identity()));
-        log.info("metadata: {}", protocols.toString());
+        log.info("The following protocols are loaded: {}", protocols.keySet().toString());
+        log.debug("The following protocols are loaded (all details: {}", protocols.toString());
+
     }
 
     @Override
