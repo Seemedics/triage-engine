@@ -1,13 +1,9 @@
 package seemedics.serializer;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Singular;
 import seemedics.model.triage.TriageProtocol;
-import seemedics.util.CollectionUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,20 +21,11 @@ import static seemedics.util.CollectionUtil.toHashMap;
 /**
  * @author victorp
  */
-public class ProtocolSerializer {
-    private static final ObjectMapper mapper = initMapper();
+public class ProtocolsSerializer {
 
-    public static ObjectMapper initMapper(){
-        ObjectMapper newMapper = new ObjectMapper();
-        newMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
-        newMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        return newMapper;
-    }
-
-
-    public static Stream<TriageProtocol> loadProtocols(InputStream inputStream) {
+    public static Stream<TriageProtocol> deserializeProtocols(InputStream inputStream) {
         try (Reader reader = new InputStreamReader(inputStream)) {
-            JsonSerializableMetadata metadata = mapper.readValue(reader, JsonSerializableMetadata.class);
+            JsonSerializableMetadata metadata = ModelSerializer.mapper.readValue(reader, JsonSerializableMetadata.class);
             return metadata.protocols.values().stream();
         } catch (IOException e) {
             throw new RuntimeException("Failed to load protocols from the given inputStream: "+ inputStream.toString(),e);
@@ -58,7 +45,7 @@ public class ProtocolSerializer {
 
         private Map<String, TriageProtocol> toMap(Set<TriageProtocol> protocols) {
             return protocols.stream()
-                .collect(Collectors.toMap(TriageProtocol::getId, identity()));
+                    .collect(Collectors.toMap(TriageProtocol::getId, identity()));
         }
 
         private HashMap<String,TriageProtocol> protocols;

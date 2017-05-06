@@ -22,7 +22,7 @@ public class LocalFileMetadataTest {
 
    @Before
    public void initTest() throws IOException {
-       localFileMetadata.metadataResource = new ClassPathResource("seemedics/model/triage/examples/symptoms-descriptors.json");
+       localFileMetadata.metadataResource = new ClassPathResource("seemedics/service/meta/symptoms-descriptors.json");
        localFileMetadata.init();
    }
 

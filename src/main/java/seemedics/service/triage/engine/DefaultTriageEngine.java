@@ -54,12 +54,12 @@ public class DefaultTriageEngine implements TriageEngine {
 
         if (flow.isOutcome()){
             TriageOutcome outcome = flow.toTriageOutcome();
-            result.isFinal(true).urgency(Optional.of(outcome.getUrgency()));
+            result.isFinal(true).urgency(outcome.getUrgency());
         }else{
             ConditionalFlow conditionalFlow = flow.toConditionalFlow();
             result.isFinal(false)
-                    .question(Optional.of(conditionalFlow.getQuestion()))
-                    .urgency(Optional.empty());
+                    .question(conditionalFlow.getQuestion())
+                    .urgency(null);
         }
 
         return result.build();
