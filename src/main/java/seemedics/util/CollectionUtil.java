@@ -1,7 +1,11 @@
 package seemedics.util;
 
+import org.assertj.core.util.Sets;
+
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author victorp
@@ -13,4 +17,5 @@ public class CollectionUtil {
         result.putAll(map);
         return result;
     }
+
 }
