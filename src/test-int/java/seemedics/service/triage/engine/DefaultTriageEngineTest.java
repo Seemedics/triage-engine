@@ -48,7 +48,7 @@ public class DefaultTriageEngineTest {
 
         log.info("protocol name: {}", triageProtocols.get(SoreThroatProtocotData.protocol().getId()).get().getName());
 
-        TriageResult triageResult = triageEngine.start(SoreThroatProtocotData.initialFacts());
+        TriageResult triageResult = triageEngine.start(new TriageStartIn(SoreThroatProtocotData.initialFacts()));
 
         Assert.assertFalse("Result #1 must not be final", triageResult.isFinal());
 
@@ -63,9 +63,15 @@ public class DefaultTriageEngineTest {
             log.info("Question #{} {}",questionCount, question);
 
             PredefAnswer userAnswer = question.getChoices().stream().findFirst().get();
-            log.info("User Answer #{} {}",questionCount,userAnswer);
+            log.info("User Answer #{} {}", questionCount, userAnswer);
 
-            triageResult = triageEngine.next(protocolId,stepId,allFacts,userAnswer.getId());
+            TriageNextIn triageNextIn = TriageNextIn.builder()
+                    .protocolId(protocolId)
+                    .answerId(userAnswer.getId())
+                    .knownFacts(allFacts)
+                    .stepId(stepId)
+                    .build();
+            triageResult = triageEngine.next(triageNextIn);
             questionCount++;
         }
 
