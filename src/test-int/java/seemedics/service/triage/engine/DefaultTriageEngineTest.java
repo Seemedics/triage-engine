@@ -20,7 +20,7 @@ import static org.mockito.BDDMockito.*;
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class DefaultTriageEngineTest {
 
     @MockBean
@@ -48,29 +48,35 @@ public class DefaultTriageEngineTest {
 
         log.info("protocol name: {}", triageProtocols.get(SoreThroatProtocotData.protocol().getId()).get().getName());
 
-        TriageResult triageResult = triageEngine.start(SoreThroatProtocotData.initialFacts());
+        TriageResult triageResult = triageEngine.start(new TriageStartIn(SoreThroatProtocotData.initialFacts()));
 
-        Assert.assertFalse("Result #1 must not be final", triageResult.isFinal);
+        Assert.assertFalse("Result #1 must not be final", triageResult.isFinal());
 
         int questionCount = 1;
 
-        while (!triageResult.isFinal){
+        while (!triageResult.isFinal()){
             String protocolId = triageResult.getProtocolId();
             String stepId = triageResult.getStepId();
-            allFacts.addAll(triageResult.newFacts);
+            allFacts.addAll(triageResult.getNewFacts());
             Question question = triageResult.getQuestion().get();
 
             log.info("Question #{} {}",questionCount, question);
 
             PredefAnswer userAnswer = question.getChoices().stream().findFirst().get();
-            log.info("User Answer #{} {}",questionCount,userAnswer);
+            log.info("User Answer #{} {}", questionCount, userAnswer);
 
-            triageResult = triageEngine.next(protocolId,stepId,allFacts,userAnswer.getId());
+            TriageNextIn triageNextIn = TriageNextIn.builder()
+                    .protocolId(protocolId)
+                    .answerId(userAnswer.getId())
+                    .knownFacts(allFacts)
+                    .stepId(stepId)
+                    .build();
+            triageResult = triageEngine.next(triageNextIn);
             questionCount++;
         }
 
         //Final Result
-        allFacts.addAll(triageResult.newFacts);
+        allFacts.addAll(triageResult.getNewFacts());
 
         log.info("Triage urgency: {}", triageResult.getUrgency().get());
         log.info("All facts from triage: {}",allFacts);

@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestPropertySource(locations = "classpath:seemedics/service/triage/engine/protocolsTriageEngineTestConfig.properties")
 public class ProtocolsTriageEngineTest {
 

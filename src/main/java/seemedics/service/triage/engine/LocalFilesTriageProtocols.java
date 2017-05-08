@@ -6,7 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import seemedics.model.triage.TriageProtocol;
-import seemedics.serializer.ProtocolSerializer;
+import seemedics.serializer.ModelSerializer;
+import seemedics.serializer.ProtocolsSerializer;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
@@ -36,7 +37,7 @@ public class LocalFilesTriageProtocols implements TriageProtocols {
     @PostConstruct
     public void init() throws IOException {
         protocols = triageProtocolsSource.inputStreams()
-                        .flatMap(ProtocolSerializer::loadProtocols)
+                        .flatMap(ProtocolsSerializer::deserializeProtocols)
                         .collect(Collectors.toMap(TriageProtocol::getId, identity()));
         log.info("The following protocols are loaded: {}", protocols.keySet().toString());
         log.debug("The following protocols are loaded (all details: {}", protocols.toString());

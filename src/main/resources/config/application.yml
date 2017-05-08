@@ -3,3 +3,10 @@ metadata:
 
 protocol:
     path: protocols-directory-is-not-defined
+
+
+######################
+# Spring Boot        #
+######################
+server:
+    port: 8080

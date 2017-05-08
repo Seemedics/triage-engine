@@ -7,7 +7,6 @@ import seemedics.model.Fact;
 import seemedics.model.triage.*;
 
 import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -26,16 +25,26 @@ public class DefaultTriageEngine implements TriageEngine {
 
 
 
-    @Override
     public TriageResult start(Set<Fact> facts) {
         TriageProtocol protocol = selectProtocol(facts);
         TriageFlow flow = protocol.getFlow();
         return next(protocol.getId(), flow, Collections.EMPTY_SET);
     }
 
-
+    @Override
+    public TriageResult start(TriageStartIn triageStartIn) {
+        return start(triageStartIn.getFacts());
+    }
 
     @Override
+    public TriageResult next(TriageNextIn triageNextIn) {
+        return next(
+                triageNextIn.getProtocolId(),
+                triageNextIn.getStepId(),
+                triageNextIn.getKnownFacts(),
+                triageNextIn.getAnswerId());
+    }
+
     public TriageResult next(String protocolId, String stepId, Set<Fact> knownFacts, String answerId) {
         TriageProtocol protocol = getTriageProtocol(protocolId);
         ConditionalFlow currentFlow = getConditionalFlow(protocol, stepId);
@@ -54,12 +63,12 @@ public class DefaultTriageEngine implements TriageEngine {
 
         if (flow.isOutcome()){
             TriageOutcome outcome = flow.toTriageOutcome();
-            result.isFinal(true).urgency(Optional.of(outcome.getUrgency()));
+            result.isFinal(true).urgency(outcome.getUrgency());
         }else{
             ConditionalFlow conditionalFlow = flow.toConditionalFlow();
             result.isFinal(false)
-                    .question(Optional.of(conditionalFlow.getQuestion()))
-                    .urgency(Optional.empty());
+                    .question(conditionalFlow.getQuestion())
+                    .urgency(null);
         }
 
         return result.build();
